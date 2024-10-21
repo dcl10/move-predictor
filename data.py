@@ -61,8 +61,8 @@ class MoveDataModule(pl.LightningDataModule):
         self.batch_size = batch_size
         self.val_split = val_split
         self.test_split = test_split
-        self.char_to_idx = None
-        self.idx_to_char = None
+        self.move_to_idx = None
+        self.idx_to_move = None
         self.train_dataset = None
         self.val_dataset = None
         self.test_dataset = None
@@ -73,20 +73,25 @@ class MoveDataModule(pl.LightningDataModule):
         with open(self.file_path, "r") as file:
             lines = file.read().splitlines()
 
-        # Create character-to-index and index-to-character mappings
-        chars = sorted(
-            list(set("".join(lines)))
-        )  # Collect all unique characters from all lines
-        self.char_to_idx = {char: idx for idx, char in enumerate(chars)}
-        self.char_to_idx["<PAD>"] = len(self.char_to_idx)  # Optional: add padding index
-        self.idx_to_char = {idx: char for char, idx in self.char_to_idx.items()}
+        # Create move-to-index and index-to-character mappings
+        moves = set()
+        for line in lines:
+            l = line.strip()
+            new_moves = l.split(" ")
+            moves.update(new_moves)
+
+        moves = sorted(list(moves))  # convert `moves` to a sorted list
+
+        self.move_to_idx = {move: idx for idx, move in enumerate(moves)}
+        self.move_to_idx["<PAD>"] = len(self.move_to_idx)  # Optional: add padding index
+        self.idx_to_move = {idx: move for move, idx in self.move_to_idx.items()}
 
         # Save the text lines for later use in setup
         self.lines = lines
 
     def setup(self, stage=None):
         # Create the dataset using the lines of text
-        dataset = MovesDataset(self.lines, self.char_to_idx, seq_length=self.seq_length)
+        dataset = MovesDataset(self.lines, self.move_to_idx, seq_length=self.seq_length)
 
         # Split the dataset into training, validation, and test sets
         total_length = len(dataset)
