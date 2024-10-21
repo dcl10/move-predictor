@@ -1,12 +1,12 @@
 import pytorch_lightning as pl
 
-from .data import MoveDataModule
-from .models import LSTMModel
+from data import MoveDataModule
+from models import LSTMModel
 
 
 # Training script
 if __name__ == "__main__":
-    file_path = "your_text_file.txt"  # Path to your text file
+    file_path = "/Users/daniel/RustroverProjects/move-extractor/target/release/games.txt"  # Path to your text file
     seq_length = 100  # Length of each sequence
     batch_size = 32  # Batch size for training
     embedding_dim = 64
@@ -19,7 +19,7 @@ if __name__ == "__main__":
     text_data_module.prepare_data()
 
     # Extract the vocabulary size based on the char_to_idx map
-    vocab_size = len(text_data_module.char_to_idx)
+    vocab_size = len(text_data_module.move_to_idx)
 
     # Define the model
     model = LSTMModel(
