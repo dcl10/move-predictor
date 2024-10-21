@@ -13,6 +13,7 @@ torch = "^2.5.0"
 torchvision = "^0.20.0"
 numpy = "^2.1.2"
 pandas = "^2.2.3"
+lightning = "^2.4.0"
 
 
 [tool.poetry.group.dev.dependencies]
