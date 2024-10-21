@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "move-predictor"
+version = "0.1.0"
+description = ""
+authors = ["Daniel Lea <Daniel.Lea@nottingham.ac.uk>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+torch = "^2.5.0"
+torchvision = "^0.20.0"
+numpy = "^2.1.2"
+pandas = "^2.2.3"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
